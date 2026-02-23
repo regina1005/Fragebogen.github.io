@@ -44,7 +44,7 @@ export function renderFaltstrategieGroups(containerId, items) {
       <div class="faltstrategie-group-cards"></div>
     `;
     const cardsEl = groupEl.querySelector('.faltstrategie-group-cards');
-    groupItems.forEach(item => cardsEl.appendChild(createTextCard(item.text, item.zugehoerigkeit)));
+    groupItems.forEach(item => cardsEl.appendChild(createTextCard(item.text, item.name, item.alter)));
     container.appendChild(groupEl);
   });
 
@@ -78,8 +78,9 @@ export function renderTextList(containerId, items) {
 
   items.forEach((item) => {
     const text = typeof item === 'string' ? item : item.text;
-    const zugehoerigkeit = typeof item === 'string' ? null : item.zugehoerigkeit;
-    const card = createTextCard(text, zugehoerigkeit);
+    const name = typeof item === 'string' ? null : item.name;
+    const alter = typeof item === 'string' ? null : item.alter;
+    const card = createTextCard(text, name, alter);
     container.appendChild(card);
   });
 
@@ -99,10 +100,11 @@ export function renderTextList(containerId, items) {
 /**
  * Create a single text card
  * @param {string} text - Text content
- * @param {string|null} zugehoerigkeit - 'patienten' | 'personal' | null
+ * @param {string|null} name - Name
+ * @param {string|number|null} alter - Alter
  * @returns {HTMLElement}
  */
-function createTextCard(text, zugehoerigkeit) {
+function createTextCard(text, name, alter) {
   const card = document.createElement('div');
   card.className = 'text-card';
   card.setAttribute('role', 'article');
@@ -111,15 +113,9 @@ function createTextCard(text, zugehoerigkeit) {
   sanitized.textContent = text;
   const safeText = sanitized.innerHTML;
 
-  let authorLabel;
-  const z = (zugehoerigkeit || '').toLowerCase();
-  if (z === 'personal') {
-    authorLabel = 'Therapeutisches Teammitglied';
-  } else if (z === 'patienten') {
-    authorLabel = 'Patient';
-  } else {
-    authorLabel = 'Teilnehmer';
-  }
+  const displayName = name || 'Unbekannt';
+  const displayAlter = alter ? `, ${alter}` : '';
+  const authorLabel = `${displayName}${displayAlter}`;
 
   card.innerHTML = `
     <div class="text-card-content">„${safeText}"</div>

@@ -18,11 +18,20 @@ export function renderSlideshow(containerId, drawings) {
     return;
   }
 
-  const slidesHTML = drawings.map(filename => `
+  const slidesHTML = drawings.map(item => {
+    const filename = typeof item === 'string' ? item : item.datei;
+    const name = typeof item === 'string' ? 'Unbekannt' : (item.name || 'Unbekannt');
+    const alter = typeof item === 'string' || !item.alter ? '' : `, ${item.alter}`;
+    const desc = `${name}${alter}`;
+
+    return `
     <div class="swiper-slide">
-      <img src="./drawings/${encodeURIComponent(filename)}" alt="Teilnehmer Zeichnung" loading="lazy">
+      <div class="polaroid-content">
+        <img src="./drawings/${encodeURIComponent(filename)}" alt="Teilnehmer Zeichnung" loading="lazy">
+        <div class="polaroid-caption">${desc}</div>
+      </div>
     </div>
-  `).join('');
+  `}).join('');
 
   container.innerHTML = `
     <div class="swiper polaroid-swiper">
