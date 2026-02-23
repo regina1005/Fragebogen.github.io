@@ -108,19 +108,23 @@ export function renderSlideshow(containerId, drawings) {
     allButtons.forEach(btn => {
       const btnImageId = btn.getAttribute('data-image');
       const safeId = btnImageId.replace(/\./g, '_');
+      const polaroid = btn.closest('.polaroid-content');
 
       if (!votedId) {
-        // No vote cast -> all buttons enabled, no red color
+        // No vote cast -> all buttons enabled, no red color, no pink bg
         btn.disabled = false;
         btn.classList.remove('liked');
+        if (polaroid) polaroid.classList.remove('liked-polaroid');
       } else if (votedId === btnImageId) {
-        // This is my vote -> enabled (to allow un-like), red color
+        // This is my vote -> enabled (to allow un-like), red color, pink bg
         btn.disabled = false;
         btn.classList.add('liked');
+        if (polaroid) polaroid.classList.add('liked-polaroid');
       } else {
-        // Vote cast for another image -> disabled, no red color
+        // Vote cast for another image -> disabled, no red color, no pink bg
         btn.disabled = true;
         btn.classList.remove('liked');
+        if (polaroid) polaroid.classList.remove('liked-polaroid');
       }
 
       // Update count even if key not in likesData (reset to 0 if needed)
