@@ -841,6 +841,17 @@
   }
 }
 
+.podium-name {
+  font-family: 'Caveat', cursive;
+  font-size: 1.1rem;
+  color: var(--color-gray-800);
+  margin-bottom: 4px;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  max-width: 100px;
+}
+
 /* ===========================
    Vote Overlay (Teil D1)
    =========================== */

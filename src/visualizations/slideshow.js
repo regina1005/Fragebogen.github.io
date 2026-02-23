@@ -73,42 +73,24 @@ export function renderSlideshow(containerId, drawings) {
     },
   });
 
-  // Bind like buttons
-  const likeBtns = container.querySelectorAll('.btn-like');
-  likeBtns.forEach(btn => {
-    btn.addEventListener('click', async () => {
-      const imageId = btn.getAttribute('data-image');
-      const isAlreadyLikedByMe = getLikedImage() === imageId;
-
-      if (hasLiked() && !isAlreadyLikedByMe) {
-        alert('Du hast bereits für eine Socke abgestimmt! Du kannst deine Stimme aber wieder entfernen, indem du noch einmal auf deine aktuell gelikte Socke klickst.');
-        return;
-      }
-
-      btn.disabled = true;
-      const success = await likeImage(imageId, isAlreadyLikedByMe);
-      if (!success) {
-        btn.disabled = false; // re-enable if failed
-      }
-    });
-  });
-
-  // Subscribe to realtime like counts
-  subscribeToLikes((likesData) => {
+  // Function to update UI based on current likes and user vote
+  const updateLikesUI = (likesData) => {
     const votedId = getLikedImage();
     const allButtons = container.querySelectorAll('.btn-like');
 
-    // First, update counts for all
-    Object.keys(likesData).forEach(key => {
-      const el = document.getElementById(`like-count-${key}`);
-      if (el) el.textContent = likesData[key];
-    });
-
-    // Then update button states
     allButtons.forEach(btn => {
       const btnImageId = btn.getAttribute('data-image');
       const safeId = btnImageId.replace(/\./g, '_');
       const polaroid = btn.closest('.polaroid-content');
+
+      // Update count if data is available
+      if (likesData && likesData[safeId] !== undefined) {
+        const countEl = document.getElementById(`like-count-${safeId}`);
+        if (countEl) countEl.textContent = likesData[safeId];
+      } else if (likesData) { // If likesData is provided but this specific key is missing, reset to 0
+        const countEl = document.getElementById(`like-count-${safeId}`);
+        if (countEl) countEl.textContent = 0;
+      }
 
       if (!votedId) {
         // No vote cast -> all buttons enabled, no red color, no pink bg
@@ -126,12 +108,36 @@ export function renderSlideshow(containerId, drawings) {
         btn.classList.remove('liked');
         if (polaroid) polaroid.classList.remove('liked-polaroid');
       }
+    });
+  };
 
-      // Update count even if key not in likesData (reset to 0 if needed)
-      const countEl = document.getElementById(`like-count-${safeId}`);
-      if (countEl) {
-        countEl.textContent = likesData[safeId] || 0;
+  // Bind like buttons
+  const likeBtns = container.querySelectorAll('.btn-like');
+  likeBtns.forEach(btn => {
+    btn.addEventListener('click', async () => {
+      const imageId = btn.getAttribute('data-image');
+      const isAlreadyLikedByMe = getLikedImage() === imageId;
+
+      if (hasLiked() && !isAlreadyLikedByMe) {
+        alert('Du hast bereits für eine Socke abgestimmt! Du kannst deine Stimme aber wieder entfernen, indem du noch einmal auf deine aktuell gelikte Socke klickst.');
+        return;
+      }
+
+      btn.disabled = true;
+      const success = await likeImage(imageId, isAlreadyLikedByMe);
+      if (success) {
+        // Update UI immediately based on the new local storage state
+        updateLikesUI(lastLikesData);
+      } else {
+        btn.disabled = false; // re-enable if failed
       }
     });
+  });
+
+  // Subscribe to realtime like counts
+  let lastLikesData = {};
+  subscribeToLikes((likesData) => {
+    lastLikesData = likesData;
+    updateLikesUI(likesData);
   });
 }

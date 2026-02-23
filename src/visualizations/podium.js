@@ -51,6 +51,7 @@ export function renderPodium(containerId, drawings) {
         <div class="podium-place rank-${rank}">
           <div class="podium-medal">${rank === 1 ? '🥇' : rank === 2 ? '🥈' : '🥉'}</div>
           <img src="./drawings/${encodeURIComponent(item.filename)}" alt="Platz ${rank}" class="podium-img">
+          <div class="podium-name">${item.name}</div>
           <div class="podium-block">${item.likes}</div>
         </div>
       `;
