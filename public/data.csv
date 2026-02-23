@@ -1,0 +1,4 @@
+teilnehmer_id,alter,geschlecht,befindlichkeit_vorher,frage_a1,frage_a2,frage_a3,frage_a4,frage_a5,frage_a6,frage_a7,frage_b1,frage_b2,frage_b3,frage_b4,frage_b5,frage_b6,frage_b7,frage_b8,frage_b9,frage_c1,frage_c2,frage_c3,frage_c4,frage_c5,frage_c6,frage_c7,abschiedsbrief,zeichnung_datei
+1,25,m,Leicht positiv aktiviert,4,3,5,2,4,3,4,0,1,0,1,0,1,0,0,1,2,0,1,3,2,1,3,"Liebe Socke, du warst immer für mich da.",drawing_001.jpg
+2,31,w,Deutlich positiv aktiviert,5,5,4,4,5,2,5,1,0,1,0,1,1,1,1,0,1,1,0,2,1,0,2,"Ich vermisse dich jeden Tag.",drawing_002.jpg
+3,28,d,Leicht irritiert,3,2,3,3,3,4,2,0,1,0,1,0,0,1,0,1,0,1,1,1,3,1,1,"Du fehlst mir so sehr.",drawing_003.jpg
