@@ -1,15 +1,26 @@
 import { PageRouter } from './router.js';
 import { loadAndParseData, filterAndAggregate } from './utils/csv-parser.js';
-import { renderLikertScales } from './visualizations/likert-scale.js';
-import { renderBarCharts, TEIL_B_QUESTIONS, TEIL_C_QUESTIONS } from './visualizations/bar-chart.js';
+import { renderLikertScales, TEIL_E_LIKERT_QUESTIONS } from './visualizations/likert-scale.js';
+import { renderBarCharts, TEIL_B_QUESTIONS, TEIL_C_QUESTIONS, TEIL_E_SINGLE_QUESTIONS } from './visualizations/bar-chart.js';
 import { renderSlideshow } from './visualizations/slideshow.js';
 import { renderTextList } from './visualizations/text-list.js';
 
-const PAGE_IDS = ['start', 'teil-a', 'teil-b', 'teil-c', 'teil-d', 'teil-e'];
+const PAGE_IDS = ['start', 'teil-a', 'teil-b', 'teil-c', 'teil-d', 'teil-e', 'danke'];
+
+const TEIL_E_LIKERT_CONFIG = {
+  questions: TEIL_E_LIKERT_QUESTIONS,
+  scaleMin: 0,
+  scaleMax: 2,
+  scaleLabels: ['Trifft nicht zu', 'neutral', 'Trifft zu'],
+  prefix: 'E4.'
+};
 
 document.addEventListener('DOMContentLoaded', async () => {
   // eslint-disable-next-line no-unused-vars
   const router = new PageRouter(PAGE_IDS);
+
+  // PDF Download
+  document.getElementById('btn-pdf-download')?.addEventListener('click', () => window.print());
 
   document.body.classList.add('loading-data');
 
@@ -20,8 +31,11 @@ document.addEventListener('DOMContentLoaded', async () => {
     renderLikertScales('teil-a-content', data.teilA);
     renderBarCharts('teil-b-content', data.teilB, TEIL_B_QUESTIONS);
     renderBarCharts('teil-c-content', data.teilC, TEIL_C_QUESTIONS);
+    renderTextList('faltstrategien-content', data.faltstrategieTexte);
     renderTextList('abschiebsbriefe-content', data.abschiebsbriefe);
     renderSlideshow('slideshow-container', data.zeichnungen);
+    renderBarCharts('teil-e-single-content', data.teilE.singleChoice, TEIL_E_SINGLE_QUESTIONS);
+    renderLikertScales('teil-e-likert-content', data.teilE.likert3, TEIL_E_LIKERT_CONFIG);
 
     initFilter('teil-a', rawRows, (filtered) => {
       renderLikertScales('teil-a-content', filtered.teilA);
@@ -31,6 +45,11 @@ document.addEventListener('DOMContentLoaded', async () => {
     });
     initFilter('teil-c', rawRows, (filtered) => {
       renderBarCharts('teil-c-content', filtered.teilC, TEIL_C_QUESTIONS);
+      renderTextList('faltstrategien-content', filtered.faltstrategieTexte);
+    });
+    initFilter('teil-e', rawRows, (filtered) => {
+      renderBarCharts('teil-e-single-content', filtered.teilE.singleChoice, TEIL_E_SINGLE_QUESTIONS);
+      renderLikertScales('teil-e-likert-content', filtered.teilE.likert3, TEIL_E_LIKERT_CONFIG);
     });
 
   } catch (error) {
@@ -38,8 +57,11 @@ document.addEventListener('DOMContentLoaded', async () => {
     renderLikertScales('teil-a-content', []);
     renderBarCharts('teil-b-content', [], TEIL_B_QUESTIONS);
     renderBarCharts('teil-c-content', [], TEIL_C_QUESTIONS);
+    renderTextList('faltstrategien-content', []);
     renderTextList('abschiebsbriefe-content', []);
     renderSlideshow('slideshow-container', []);
+    renderBarCharts('teil-e-single-content', [], TEIL_E_SINGLE_QUESTIONS);
+    renderLikertScales('teil-e-likert-content', [], TEIL_E_LIKERT_CONFIG);
   } finally {
     document.body.classList.remove('loading-data');
   }

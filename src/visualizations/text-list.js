@@ -1,25 +1,26 @@
 /**
- * Render text list (goodbye letters to lost socks)
+ * Render text list (goodbye letters or Faltstrategie quotes)
  * @param {string} containerId - Container element ID
- * @param {Array} texts - Array of text strings
+ * @param {Array} items - Array of {text, zugehoerigkeit} objects or plain strings
  */
-export function renderTextList(containerId, texts) {
+export function renderTextList(containerId, items) {
   const container = document.getElementById(containerId);
   if (!container) return;
 
-  if (!texts || texts.length === 0) {
+  if (!items || items.length === 0) {
     container.innerHTML = '<div class="text-list-empty">Keine Einträge vorhanden</div>';
     return;
   }
 
   container.innerHTML = '';
 
-  texts.forEach((text, index) => {
-    const card = createTextCard(text, index + 1);
+  items.forEach((item) => {
+    const text = typeof item === 'string' ? item : item.text;
+    const zugehoerigkeit = typeof item === 'string' ? null : item.zugehoerigkeit;
+    const card = createTextCard(text, zugehoerigkeit);
     container.appendChild(card);
   });
 
-  // Scroll-triggered entrance animations
   const cards = container.querySelectorAll('.text-card');
   const observer = new IntersectionObserver((entries) => {
     entries.forEach(entry => {
@@ -36,22 +37,31 @@ export function renderTextList(containerId, texts) {
 /**
  * Create a single text card
  * @param {string} text - Text content
- * @param {number} index - Participant index
+ * @param {string|null} zugehoerigkeit - 'patienten' | 'personal' | null
  * @returns {HTMLElement}
  */
-function createTextCard(text, index) {
+function createTextCard(text, zugehoerigkeit) {
   const card = document.createElement('div');
   card.className = 'text-card';
   card.setAttribute('role', 'article');
 
-  // Sanitize text to prevent XSS
   const sanitized = document.createElement('span');
   sanitized.textContent = text;
   const safeText = sanitized.innerHTML;
 
+  let authorLabel;
+  const z = (zugehoerigkeit || '').toLowerCase();
+  if (z === 'personal') {
+    authorLabel = 'Therapeutisches Teammitglied';
+  } else if (z === 'patienten') {
+    authorLabel = 'Patient';
+  } else {
+    authorLabel = 'Teilnehmer';
+  }
+
   card.innerHTML = `
-    <div class="text-card-content">„${safeText}“</div>
-    <div class="text-card-author">— Teilnehmer ${index}</div>
+    <div class="text-card-content">„${safeText}"</div>
+    <div class="text-card-author">— ${authorLabel}</div>
   `;
 
   return card;

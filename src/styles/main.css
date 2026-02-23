@@ -73,3 +73,113 @@ body.loading-data .visualizations::before {
   color: var(--color-gray-600);
   text-align: center;
 }
+
+/* ===========================
+   Danke-Seite
+   =========================== */
+
+.page-danke {
+  background: #000;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.danke-content {
+  text-align: center;
+  color: var(--color-white);
+  padding: var(--space-lg);
+  max-width: 560px;
+}
+
+.danke-kito {
+  font-size: 12px;
+  letter-spacing: 0.1em;
+  text-transform: uppercase;
+  color: rgba(255, 255, 255, 0.5);
+  margin-bottom: var(--space-md);
+}
+
+.danke-title {
+  font-size: clamp(36px, 8vw, 72px);
+  font-weight: 700;
+  line-height: 1.1;
+  letter-spacing: -1px;
+  margin-bottom: var(--space-md);
+  color: var(--color-white);
+}
+
+.danke-subtitle {
+  font-size: 14px;
+  color: rgba(255, 255, 255, 0.6);
+  margin-bottom: var(--space-xl);
+}
+
+.pdf-download-btn {
+  display: inline-block;
+  padding: 14px 32px;
+  background: var(--color-white);
+  color: #000;
+  border: none;
+  border-radius: 100px;
+  font-size: 15px;
+  font-weight: 600;
+  cursor: pointer;
+  transition: transform 0.2s ease, background 0.2s ease;
+  letter-spacing: 0.01em;
+}
+
+.pdf-download-btn:hover {
+  background: var(--color-gray-200);
+  transform: translateY(-2px);
+}
+
+/* ===========================
+   Print CSS — für PDF-Download
+   =========================== */
+
+@media print {
+  .bottom-bar { display: none !important; }
+  .filter-bar { display: none !important; }
+
+  body { overflow: visible !important; }
+
+  .page {
+    position: static !important;
+    display: block !important;
+    transform: none !important;
+    opacity: 1 !important;
+    height: auto !important;
+    min-height: 100vh;
+    page-break-after: always;
+    overflow: visible !important;
+  }
+
+  #page-start { display: none !important; }
+  #page-danke { page-break-after: avoid; }
+
+  .page-content {
+    overflow: visible !important;
+    height: auto !important;
+    max-height: none !important;
+  }
+
+  .visualization-card {
+    opacity: 1 !important;
+    transform: none !important;
+    page-break-inside: avoid;
+  }
+
+  .bar-fill {
+    width: var(--bar-width) !important;
+    transition: none !important;
+  }
+
+  .text-card {
+    opacity: 1 !important;
+    transform: none !important;
+    page-break-inside: avoid;
+  }
+
+  .swiper { display: none !important; }
+}
