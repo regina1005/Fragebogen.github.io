@@ -15,15 +15,51 @@ const TEIL_B_QUESTIONS = [
 
 /**
  * Questions for Teil C - multiple options (0-based index)
+ * Note: frage_c3 (Faltstrategie-Beschreibung) is a free-text field and skipped here
  */
 const TEIL_C_QUESTIONS = [
-  { title: 'Bevorzugte Sockenlänge:', options: ['Keine Socken', 'No-Show', 'Knöchellänge', 'Mittlere Länge', 'Knielang', 'Situationsabhängig'] },
-  { title: 'Falt-/Lagerungsstrategie:', options: ['Überlappungsfaltung', 'Kompressionsbasierte Bündelung', 'Lineare Parallelfaltung', 'Unstrukturierte Ablage'] },
-  { title: 'Farbkategorie:', options: ['Achromatische Töne', 'Gedämpfte Chromatik', 'Helle/kontrastreiche Farben', 'Situationsabhängig'] },
-  { title: 'Textile Oberflächenpräferenz:', options: ['Überwiegend unifarben', 'Gelegentlich gemustert', 'Überwiegend gemustert', 'Muster als Identitätsmerkmal'] },
-  { title: 'Affektive Veränderung bei gemusterten Socken:', options: ['Stimmungsaufhellung', 'Erhöhte Selbstwirksamkeit', 'Keine Veränderung', 'Keine Angabe'] },
-  { title: 'Reaktion auf veränderte Sockenschublade:', options: ['Keine Reaktion', 'Kurzfristige Irritation', 'Wahrnehmbarer Ordnungsimpuls', 'Deutliche Dysregulation'] },
-  { title: 'Häufigkeit des Tragens identischer Socken an aufeinanderfolgenden Tagen:', options: ['Nie', 'Selten', 'Gelegentlich', 'Regelmäßig', 'Immer'] }
+  {
+    title: 'Welche Sockenlänge präferieren Sie überwiegend im Alltag?',
+    options: ['Keine Socken', 'No-Show-/Invisible-Socken', 'Knöchellänge', 'Mittlere Länge (Crew)', 'Knielang oder darüber', 'Situationsabhängige Variation']
+  },
+  {
+    title: 'Welche Falt- bzw. Lagerungsstrategie wenden Sie überwiegend an?',
+    options: ['Dyadische Überlappungsfaltung', 'Kompressionsbasierte Bündelung', 'Lineare Parallelfaltung', 'Unstrukturierte Ablage']
+  },
+  {
+    title: 'Welche Farbkategorie präferieren Sie bei der Auswahl tragender Socken?',
+    options: ['Achromatische Töne', 'Gedämpfte Chromatik', 'Helle/kontrastreiche Farben', 'Situationsabhängige Farbwahl']
+  },
+  {
+    title: 'Wie würden Sie Ihre textile Oberflächenpräferenz beschreiben?',
+    options: ['Überwiegend unifarbene Socken', 'Gelegentlich gemusterte Socken', 'Überwiegend gemusterte Socken', 'Muster als primäres Identitätsmerkmal']
+  },
+  {
+    title: 'Inwiefern beobachten Sie eine Veränderung Ihrer affektiven Grundstimmung beim Tragen gemusterter Socken?',
+    options: ['Subjektiv wahrnehmbare Stimmungsaufhellung', 'Erhöhte Selbstwirksamkeits- oder Expressivitätserfahrung', 'Keine relevante affektive Veränderung', 'Keine Angabe / Trage keine gemusterten Socken']
+  },
+  {
+    title: 'Inwiefern reagieren Sie auf eine unerwartete Veränderung Ihrer Sockenschubladen- oder Lagerungsstruktur?',
+    options: ['Keine subjektiv relevante Reaktion', 'Kurzfristige Irritation ohne Handlungsimpuls', 'Wahrnehmbarer Ordnungsimpuls mit Bedürfnis nach Wiederherstellung', 'Deutliche kognitive oder affektive Dysregulation bis zur unmittelbaren Reorganisation']
+  }
+];
+
+/**
+ * Questions for Teil E - single choice responses
+ */
+const TEIL_E_SINGLE_QUESTIONS = [
+  {
+    title: 'Wie beschreiben Sie Ihre aktuelle Gesamtbefindlichkeit?',
+    options: ['Unverändert gegenüber dem Ausgangszustand', 'Leicht positiv aktiviert', 'Deutlich positiv aktiviert', 'Leicht irritiert', 'Deutlich irritiert', 'Schwer operationalisierbar']
+  },
+  {
+    title: 'Falls Sie eine Veränderung wahrnehmen: Wo im Körper spüren Sie diese primär?',
+    options: ['Kopfbereich', 'Brust-/Herzregion', 'Bauch-/Abdominalregion', 'Extremitäten', 'Keine spezifische Lokalisierung']
+  },
+  {
+    title: 'Hat die Bearbeitung des Fragebogens zu allgemeinen Reflexionen über Ordnung, Verlust oder Paarbildung geführt?',
+    options: ['Nein', 'In geringem Ausmaß', 'Moderat', 'Deutlich', 'In überraschend tiefgreifender Weise']
+  }
 ];
 
 /**
@@ -102,4 +138,4 @@ function createBarChartCard(title, frequencies, optionLabels) {
   return card;
 }
 
-export { TEIL_B_QUESTIONS, TEIL_C_QUESTIONS };
+export { TEIL_B_QUESTIONS, TEIL_C_QUESTIONS, TEIL_E_SINGLE_QUESTIONS };
