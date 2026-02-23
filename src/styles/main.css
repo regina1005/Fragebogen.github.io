@@ -11,16 +11,24 @@ body {
   color: var(--color-gray-800);
   background-color: var(--color-white);
   line-height: var(--line-height-normal);
-  overflow: hidden; /* Kein Body-Scroll — Pages handhaben ihren eigenen Scroll */
+  overflow: hidden;
+  /* Kein Body-Scroll — Pages handhaben ihren eigenen Scroll */
 }
 
-h1, h2, h3 {
+h1,
+h2,
+h3 {
   line-height: var(--line-height-tight);
   font-weight: 700;
 }
 
-h1 { font-size: var(--font-size-h1); }
-h2 { font-size: var(--font-size-h2); }
+h1 {
+  font-size: var(--font-size-h1);
+}
+
+h2 {
+  font-size: var(--font-size-h2);
+}
 
 /* Utilities */
 .sr-only {
@@ -51,6 +59,7 @@ button:focus-visible {
 }
 
 @media print {
+
   .bottom-bar,
   .swiper-button-prev,
   .swiper-button-next {
@@ -59,7 +68,10 @@ button:focus-visible {
 }
 
 @media (prefers-reduced-motion: reduce) {
-  *, *::before, *::after {
+
+  *,
+  *::before,
+  *::after {
     animation-duration: 0.01ms !important;
     animation-iteration-count: 1 !important;
     transition-duration: 0.01ms !important;
@@ -80,9 +92,8 @@ body.loading-data .visualizations::before {
 
 .page-danke {
   background: #000;
-  display: flex;
-  align-items: center;
-  justify-content: center;
+  overflow-y: auto;
+  -webkit-overflow-scrolling: touch;
 }
 
 .danke-content {
@@ -139,10 +150,17 @@ body.loading-data .visualizations::before {
    =========================== */
 
 @media print {
-  .bottom-bar { display: none !important; }
-  .filter-bar { display: none !important; }
+  .bottom-bar {
+    display: none !important;
+  }
 
-  body { overflow: visible !important; }
+  .filter-bar {
+    display: none !important;
+  }
+
+  body {
+    overflow: visible !important;
+  }
 
   .page {
     position: static !important;
@@ -155,8 +173,13 @@ body.loading-data .visualizations::before {
     overflow: visible !important;
   }
 
-  #page-start { display: none !important; }
-  #page-danke { page-break-after: avoid; }
+  #page-start {
+    display: none !important;
+  }
+
+  #page-danke {
+    page-break-after: avoid;
+  }
 
   .page-content {
     overflow: visible !important;
@@ -181,5 +204,7 @@ body.loading-data .visualizations::before {
     page-break-inside: avoid;
   }
 
-  .swiper { display: none !important; }
+  .swiper {
+    display: none !important;
+  }
 }

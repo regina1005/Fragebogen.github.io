@@ -41,7 +41,6 @@ export function renderSlideshow(containerId, drawings) {
   `}).join('');
 
   container.innerHTML = `
-    <p class="swipe-hint" style="margin-bottom: 8px;">Jeder Teilnehmer hat 1 Stimme für seine persönliche Lieblingssocke.</p>
     <div class="swiper polaroid-swiper">
       <div class="swiper-wrapper">
         ${slidesHTML}
@@ -50,6 +49,16 @@ export function renderSlideshow(containerId, drawings) {
     </div>
     <p class="swipe-hint">← wischen →</p>
   `;
+
+  // Overlay handling
+  const overlay = document.getElementById('vote-overlay');
+  const overlayBtn = document.getElementById('btn-vote-ok');
+  if (overlay && overlayBtn) {
+    overlayBtn.addEventListener('click', () => {
+      overlay.classList.add('hidden');
+      container.classList.remove('obscured');
+    });
+  }
 
   new Swiper(container.querySelector('.swiper'), {
     modules: [EffectCards, Pagination, Keyboard],
@@ -78,13 +87,7 @@ export function renderSlideshow(containerId, drawings) {
 
       btn.disabled = true;
       const success = await likeImage(imageId, isAlreadyLikedByMe);
-      if (success) {
-        if (isAlreadyLikedByMe) {
-          btn.classList.remove('liked');
-        } else {
-          btn.classList.add('liked');
-        }
-      } else {
+      if (!success) {
         btn.disabled = false; // re-enable if failed
       }
     });
@@ -93,25 +96,38 @@ export function renderSlideshow(containerId, drawings) {
   // Subscribe to realtime like counts
   subscribeToLikes((likesData) => {
     const votedId = getLikedImage();
+    const allButtons = container.querySelectorAll('.btn-like');
+
+    // First, update counts for all
     Object.keys(likesData).forEach(key => {
       const el = document.getElementById(`like-count-${key}`);
       if (el) el.textContent = likesData[key];
-
-      // Update button state visually
-      if (votedId && votedId.replace(/\./g, '_') === key) {
-        const btn = document.getElementById(`like-btn-${key}`);
-        if (btn) {
-          btn.classList.add('liked');
-          btn.disabled = true;
-        }
-      }
     });
 
-    // If user has voted, disable all other like buttons
-    if (votedId) {
-      container.querySelectorAll('.btn-like').forEach(b => {
-        b.disabled = true;
-      });
-    }
+    // Then update button states
+    allButtons.forEach(btn => {
+      const btnImageId = btn.getAttribute('data-image');
+      const safeId = btnImageId.replace(/\./g, '_');
+
+      if (!votedId) {
+        // No vote cast -> all buttons enabled, no red color
+        btn.disabled = false;
+        btn.classList.remove('liked');
+      } else if (votedId === btnImageId) {
+        // This is my vote -> enabled (to allow un-like), red color
+        btn.disabled = false;
+        btn.classList.add('liked');
+      } else {
+        // Vote cast for another image -> disabled, no red color
+        btn.disabled = true;
+        btn.classList.remove('liked');
+      }
+
+      // Update count even if key not in likesData (reset to 0 if needed)
+      const countEl = document.getElementById(`like-count-${safeId}`);
+      if (countEl) {
+        countEl.textContent = likesData[safeId] || 0;
+      }
+    });
   });
 }
