@@ -19,9 +19,6 @@ document.addEventListener('DOMContentLoaded', async () => {
   // eslint-disable-next-line no-unused-vars
   const router = new PageRouter(PAGE_IDS);
 
-  // PDF Download
-  document.getElementById('btn-pdf-download')?.addEventListener('click', () => window.print());
-
   document.body.classList.add('loading-data');
 
   try {
