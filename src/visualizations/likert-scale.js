@@ -45,19 +45,20 @@ function createLikertCard(question, median, mean, index, config) {
   const meanDisplay = hasData ? Number(mean).toFixed(1) : '–';
 
   const overlap = hasData && Math.abs(median - mean) < 0.4;
-  const medianLabelOffset = overlap ? 'transform: translateY(-36px);' : '';
-  const meanLabelOffset = overlap ? 'transform: translateY(-4px);' : '';
+  /* When overlapping: push the mean marker below the track and flip its label to show underneath */
+  const meanMarkerStyle = overlap ? 'top: 28px;' : '';
+  const meanLabelStyle = overlap ? 'position: absolute; top: 14px; transform: none;' : '';
 
   const medianPct = toPercent(median, scaleMin, scaleMax);
   const meanPct = toPercent(mean, scaleMin, scaleMax);
 
   const markersHTML = hasData ? `
     <div class="likert-marker median" style="left: ${medianPct}">
-      <span class="likert-marker-label" style="${medianLabelOffset}" aria-hidden="true">${medianDisplay}</span>
+      <span class="likert-marker-label" aria-hidden="true">${medianDisplay}</span>
       <div class="likert-marker-dot" title="Median: ${medianDisplay}"></div>
     </div>
-    <div class="likert-marker mean" style="left: ${meanPct}">
-      <span class="likert-marker-label" style="${meanLabelOffset}" aria-hidden="true">${meanDisplay}</span>
+    <div class="likert-marker mean" style="left: ${meanPct}; ${meanMarkerStyle}">
+      <span class="likert-marker-label" style="${meanLabelStyle}" aria-hidden="true">${meanDisplay}</span>
       <div class="likert-marker-dot" title="Durchschnitt: ${meanDisplay}"></div>
     </div>
   ` : '<div class="likert-no-data">Daten werden noch erhoben</div>';

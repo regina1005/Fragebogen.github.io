@@ -107,23 +107,6 @@
   padding-bottom: calc(60px + var(--space-xl));
 }
 
-#page-teil-e {
-  background: var(--color-black);
-}
-
-#page-teil-e .page-header {
-  background: var(--color-black);
-  border-bottom-color: rgba(255, 255, 255, 0.1);
-}
-
-#page-teil-e .section-number {
-  color: rgba(255, 255, 255, 0.08);
-}
-
-#page-teil-e h2,
-#page-teil-e .section-subtitle {
-  color: var(--color-white);
-}
 
 /* ============================================
    BOTTOM BAR
