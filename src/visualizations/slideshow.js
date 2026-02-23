@@ -41,6 +41,7 @@ export function renderSlideshow(containerId, drawings) {
   `}).join('');
 
   container.innerHTML = `
+    <p class="swipe-hint" style="margin-bottom: 8px;">Jeder Teilnehmer hat 1 Stimme für seine persönliche Lieblingssocke.</p>
     <div class="swiper polaroid-swiper">
       <div class="swiper-wrapper">
         ${slidesHTML}
@@ -67,15 +68,22 @@ export function renderSlideshow(containerId, drawings) {
   const likeBtns = container.querySelectorAll('.btn-like');
   likeBtns.forEach(btn => {
     btn.addEventListener('click', async () => {
-      if (hasLiked()) {
-        alert('Du hast bereits für eine Socke abgestimmt!');
+      const imageId = btn.getAttribute('data-image');
+      const isAlreadyLikedByMe = getLikedImage() === imageId;
+
+      if (hasLiked() && !isAlreadyLikedByMe) {
+        alert('Du hast bereits für eine Socke abgestimmt! Du kannst deine Stimme aber wieder entfernen, indem du noch einmal auf deine aktuell gelikte Socke klickst.');
         return;
       }
-      const imageId = btn.getAttribute('data-image');
+
       btn.disabled = true;
-      const success = await likeImage(imageId);
+      const success = await likeImage(imageId, isAlreadyLikedByMe);
       if (success) {
-        btn.classList.add('liked');
+        if (isAlreadyLikedByMe) {
+          btn.classList.remove('liked');
+        } else {
+          btn.classList.add('liked');
+        }
       } else {
         btn.disabled = false; // re-enable if failed
       }

@@ -7,7 +7,7 @@ import { renderTextList, renderFaltstrategieGroups } from './visualizations/text
 import { renderGroupDotScale } from './visualizations/scale-dot.js';
 import { renderPodium } from './visualizations/podium.js';
 
-const PAGE_IDS = ['start', 'teil-a', 'teil-b', 'teil-c', 'teil-d', 'teil-e', 'danke'];
+const PAGE_IDS = ['start', 'teil-a', 'teil-b', 'teil-c', 'teil-d1', 'teil-d2', 'teil-d3', 'teil-e', 'danke'];
 
 const TEIL_E_LIKERT_CONFIG = {
   questions: TEIL_E_LIKERT_QUESTIONS,

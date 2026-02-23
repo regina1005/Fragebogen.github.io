@@ -26,20 +26,31 @@ export function hasLiked() {
 }
 
 /**
- * Likes an image in the database. Only one like per user is allowed.
+ * Likes or unlikes an image in the database. Only one like per user is allowed.
  * @param {string} imageId The unique string identifier for the image (e.g. filename)
+ * @param {boolean} isUnlike Set to true if this should revoke the existing like
  * @returns {Promise<boolean>} Resolves to true if successful
  */
-export async function likeImage(imageId) {
-    if (hasLiked()) return false;
+export async function likeImage(imageId, isUnlike = false) {
+    if (hasLiked() && !isUnlike) return false;
+    if (!hasLiked() && isUnlike) return false;
 
     const imgRef = ref(database, 'likes/' + imageId.replace(/\./g, '_'));
 
     try {
         await runTransaction(imgRef, (currentLikes) => {
-            return (currentLikes || 0) + 1;
+            const current = currentLikes || 0;
+            if (isUnlike) {
+                return Math.max(0, current - 1);
+            }
+            return current + 1;
         });
-        localStorage.setItem(LOCAL_STORAGE_KEY, imageId);
+
+        if (isUnlike) {
+            localStorage.removeItem(LOCAL_STORAGE_KEY);
+        } else {
+            localStorage.setItem(LOCAL_STORAGE_KEY, imageId);
+        }
         return true;
     } catch (e) {
         console.error("Like failed", e);
