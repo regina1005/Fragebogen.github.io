@@ -5,6 +5,7 @@ import { renderBarCharts, TEIL_B_QUESTIONS, TEIL_C_QUESTIONS, TEIL_E_SINGLE_QUES
 import { renderSlideshow } from './visualizations/slideshow.js';
 import { renderTextList, renderFaltstrategieGroups } from './visualizations/text-list.js';
 import { renderGroupDotScale } from './visualizations/scale-dot.js';
+import { renderPodium } from './visualizations/podium.js';
 
 const PAGE_IDS = ['start', 'teil-a', 'teil-b', 'teil-c', 'teil-d', 'teil-e', 'danke'];
 
@@ -35,6 +36,7 @@ document.addEventListener('DOMContentLoaded', async () => {
     renderGroupDotScale('teil-d3-content', data.teilD3);
     renderBarCharts('teil-e-single-content', data.teilE.singleChoice, TEIL_E_SINGLE_QUESTIONS);
     renderLikertScales('teil-e-likert-content', data.teilE.likert3, TEIL_E_LIKERT_CONFIG);
+    renderPodium('podium-content', data.zeichnungen);
 
     initFilter('teil-a', rawRows, (filtered) => {
       renderLikertScales('teil-a-content', filtered.teilA);
