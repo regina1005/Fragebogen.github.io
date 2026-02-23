@@ -119,7 +119,7 @@ function createTextCard(text, name, alter) {
 
   card.innerHTML = `
     <div class="text-card-content">„${safeText}"</div>
-    <div class="text-card-author">— ${authorLabel}</div>
+    <div class="text-card-author">~ ${authorLabel}</div>
   `;
 
   return card;

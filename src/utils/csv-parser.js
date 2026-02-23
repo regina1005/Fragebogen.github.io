@@ -18,6 +18,7 @@ export async function loadAndParseData(url = './data.csv') {
         header: true,
         skipEmptyLines: true,
         dynamicTyping: true,
+        delimiter: ';',
         complete: (results) => {
           const aggregated = aggregateData(results.data);
           resolve(aggregated);
