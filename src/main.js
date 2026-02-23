@@ -3,7 +3,8 @@ import { loadAndParseData, filterAndAggregate } from './utils/csv-parser.js';
 import { renderLikertScales, TEIL_E_LIKERT_QUESTIONS } from './visualizations/likert-scale.js';
 import { renderBarCharts, TEIL_B_QUESTIONS, TEIL_C_QUESTIONS, TEIL_E_SINGLE_QUESTIONS } from './visualizations/bar-chart.js';
 import { renderSlideshow } from './visualizations/slideshow.js';
-import { renderTextList } from './visualizations/text-list.js';
+import { renderTextList, renderFaltstrategieGroups } from './visualizations/text-list.js';
+import { renderGroupDotScale } from './visualizations/scale-dot.js';
 
 const PAGE_IDS = ['start', 'teil-a', 'teil-b', 'teil-c', 'teil-d', 'teil-e', 'danke'];
 
@@ -28,9 +29,10 @@ document.addEventListener('DOMContentLoaded', async () => {
     renderLikertScales('teil-a-content', data.teilA);
     renderBarCharts('teil-b-content', data.teilB, TEIL_B_QUESTIONS);
     renderBarCharts('teil-c-content', data.teilC, TEIL_C_QUESTIONS);
-    renderTextList('faltstrategien-content', data.faltstrategieTexte);
+    renderFaltstrategieGroups('faltstrategien-content', data.faltstrategieTexte);
     renderTextList('abschiebsbriefe-content', data.abschiebsbriefe);
     renderSlideshow('slideshow-container', data.zeichnungen);
+    renderGroupDotScale('teil-d3-content', data.teilD3);
     renderBarCharts('teil-e-single-content', data.teilE.singleChoice, TEIL_E_SINGLE_QUESTIONS);
     renderLikertScales('teil-e-likert-content', data.teilE.likert3, TEIL_E_LIKERT_CONFIG);
 
@@ -42,7 +44,7 @@ document.addEventListener('DOMContentLoaded', async () => {
     });
     initFilter('teil-c', rawRows, (filtered) => {
       renderBarCharts('teil-c-content', filtered.teilC, TEIL_C_QUESTIONS);
-      renderTextList('faltstrategien-content', filtered.faltstrategieTexte);
+      renderFaltstrategieGroups('faltstrategien-content', filtered.faltstrategieTexte);
     });
     initFilter('teil-e', rawRows, (filtered) => {
       renderBarCharts('teil-e-single-content', filtered.teilE.singleChoice, TEIL_E_SINGLE_QUESTIONS);
@@ -54,9 +56,10 @@ document.addEventListener('DOMContentLoaded', async () => {
     renderLikertScales('teil-a-content', []);
     renderBarCharts('teil-b-content', [], TEIL_B_QUESTIONS);
     renderBarCharts('teil-c-content', [], TEIL_C_QUESTIONS);
-    renderTextList('faltstrategien-content', []);
+    renderFaltstrategieGroups('faltstrategien-content', []);
     renderTextList('abschiebsbriefe-content', []);
     renderSlideshow('slideshow-container', []);
+    renderGroupDotScale('teil-d3-content', []);
     renderBarCharts('teil-e-single-content', [], TEIL_E_SINGLE_QUESTIONS);
     renderLikertScales('teil-e-likert-content', [], TEIL_E_LIKERT_CONFIG);
   } finally {

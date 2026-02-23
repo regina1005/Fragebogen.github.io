@@ -1,3 +1,65 @@
+const FALTSTRATEGIEN = [
+  'Dyadische Überlappungsfaltung',
+  'Kompressionsbasierte Bündelung',
+  'Lineare Parallelfaltung',
+  'Unstrukturierte Ablage'
+];
+
+/**
+ * Render Faltstrategie quote cards grouped by strategy (C2 value)
+ * @param {string} containerId
+ * @param {Array} items - Array of {text, zugehoerigkeit, faltStrategie} objects
+ */
+export function renderFaltstrategieGroups(containerId, items) {
+  const container = document.getElementById(containerId);
+  if (!container) return;
+  container.innerHTML = '';
+
+  if (!items || items.length === 0) {
+    container.innerHTML = '<div class="text-list-empty">Keine Einträge vorhanden</div>';
+    return;
+  }
+
+  // Group by faltStrategie (0–3)
+  const groups = {};
+  items.forEach(item => {
+    const key = item.faltStrategie !== null && item.faltStrategie !== undefined
+      ? String(item.faltStrategie)
+      : 'unknown';
+    if (!groups[key]) groups[key] = [];
+    groups[key].push(item);
+  });
+
+  FALTSTRATEGIEN.forEach((name, index) => {
+    const groupItems = groups[String(index)];
+    if (!groupItems || groupItems.length === 0) return;
+
+    const groupEl = document.createElement('div');
+    groupEl.className = 'faltstrategie-group';
+    groupEl.innerHTML = `
+      <div class="faltstrategie-group-header">
+        <span class="faltstrategie-group-badge">${index + 1}</span>
+        <span class="faltstrategie-group-name">${name}</span>
+      </div>
+      <div class="faltstrategie-group-cards"></div>
+    `;
+    const cardsEl = groupEl.querySelector('.faltstrategie-group-cards');
+    groupItems.forEach(item => cardsEl.appendChild(createTextCard(item.text, item.zugehoerigkeit)));
+    container.appendChild(groupEl);
+  });
+
+  const cards = container.querySelectorAll('.text-card');
+  const observer = new IntersectionObserver(entries => {
+    entries.forEach(entry => {
+      if (entry.isIntersecting) {
+        entry.target.classList.add('visible');
+        observer.unobserve(entry.target);
+      }
+    });
+  }, { threshold: 0.1 });
+  cards.forEach(card => observer.observe(card));
+}
+
 /**
  * Render text list (goodbye letters or Faltstrategie quotes)
  * @param {string} containerId - Container element ID

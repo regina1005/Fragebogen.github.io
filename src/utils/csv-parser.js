@@ -51,13 +51,17 @@ function aggregateData(rawData) {
     faltstrategieTexte: rawData
       .map(row => ({
         text: String(row.frage_c3 || '').replace(/^[„""]|["""]$/g, '').trim(),
-        zugehoerigkeit: row.zugehoerigkeit
+        zugehoerigkeit: row.zugehoerigkeit,
+        faltStrategie: row.frage_c2  // 0–3, maps to Faltstrategie option
       }))
       .filter(item => item.text),
     abschiebsbriefe: rawData
       .map(row => ({ text: row.abschiedsbrief, zugehoerigkeit: row.zugehoerigkeit }))
       .filter(item => item.text),
     zeichnungen: rawData.map(row => row.zeichnung_datei).filter(Boolean),
+    teilD3: rawData
+      .map(row => ({ value: row.frage_d3, zugehoerigkeit: row.zugehoerigkeit }))
+      .filter(item => item.value !== null && item.value !== undefined && item.value !== ''),
     teilE: {
       singleChoice: aggregateMultipleChoice(rawData, ['frage_e1', 'frage_e2', 'frage_e3']),
       likert3: aggregateLikertData(

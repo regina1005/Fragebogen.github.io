@@ -119,7 +119,7 @@ function createBarChartCard(title, frequencies, optionLabels) {
       <div class="bar-chart-item">
         <div class="bar-label">${label}</div>
         <div class="bar-container">
-          <div class="bar-fill" style="--bar-width: ${pct} %" title="${pct} %">
+          <div class="bar-fill" style="--bar-width: ${pct}%" title="${pct} %">
             ${showInside ? `<span class="bar-percentage">${pct} %</span>` : ''}
           </div>
         </div>

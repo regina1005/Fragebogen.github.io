@@ -460,3 +460,112 @@
   color: var(--color-gray-600);
   font-style: italic;
 }
+
+/* ===========================
+   Group Dot Scale (D3)
+   =========================== */
+
+.group-scale-wrapper {
+  width: 100%;
+  padding-bottom: var(--space-sm);
+}
+
+.group-dots-container {
+  position: relative;
+  height: 60px; /* space for stacked dots */
+}
+
+.group-scale-line {
+  height: 4px;
+  background: var(--color-gray-200);
+  border-radius: 2px;
+  margin-bottom: 8px;
+}
+
+.group-dot {
+  position: absolute;
+  width: 14px;
+  height: 14px;
+  border-radius: 50%;
+  transform: translateX(-50%);
+  border: 2.5px solid var(--color-white);
+  box-shadow: 0 2px 6px rgba(0, 0, 0, 0.25);
+  transition: transform 0.3s cubic-bezier(0.34, 1.56, 0.64, 1);
+}
+
+.visualization-card:hover .group-dot {
+  transform: translateX(-50%) scale(1.2);
+}
+
+.group-dot.patienten {
+  background: var(--color-red-primary);
+}
+
+.group-dot.personal {
+  background: #3b82f6;
+}
+
+.group-dot-legend {
+  border-radius: 50%;
+  flex-shrink: 0;
+  width: 10px;
+  height: 10px;
+}
+
+.group-dot-legend.patienten {
+  background: var(--color-red-primary);
+}
+
+.group-dot-legend.personal {
+  background: #3b82f6;
+}
+
+/* ===========================
+   Faltstrategie Groups (C3)
+   =========================== */
+
+.faltstrategie-group {
+  margin-bottom: var(--space-lg);
+}
+
+.faltstrategie-group-header {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  padding-bottom: var(--space-sm);
+  margin-bottom: var(--space-sm);
+  border-bottom: 1px solid var(--color-gray-200);
+}
+
+.faltstrategie-group-badge {
+  width: 22px;
+  height: 22px;
+  border-radius: 50%;
+  background: var(--color-gray-800);
+  color: var(--color-white);
+  font-size: 11px;
+  font-weight: 700;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  flex-shrink: 0;
+}
+
+.faltstrategie-group-name {
+  font-size: 12px;
+  font-weight: 600;
+  color: var(--color-gray-600);
+  text-transform: uppercase;
+  letter-spacing: 0.06em;
+}
+
+.faltstrategie-group-cards {
+  display: grid;
+  gap: var(--space-md);
+}
+
+@media (min-width: 768px) {
+  .faltstrategie-group-cards {
+    grid-template-columns: repeat(auto-fill, minmax(360px, 1fr));
+  }
+}
