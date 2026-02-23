@@ -77,16 +77,17 @@ function createBarChartCard(title, frequencies, optionLabels) {
     // option is a string like "0", "1", "2" etc - use as index into optionLabels
     const optionIndex = parseInt(freq.option, 10);
     const label = optionLabels[optionIndex] !== undefined ? optionLabels[optionIndex] : `Option ${freq.option}`;
+    const pct = Number(freq.percentage).toFixed(1);
     const showInside = freq.percentage >= 15;
     return `
       <div class="bar-chart-item">
         <div class="bar-label">${label}</div>
         <div class="bar-container">
-          <div class="bar-fill" style="--bar-width: ${freq.percentage}%" title="${freq.percentage}%">
-            ${showInside ? `<span class="bar-percentage">${freq.percentage}%</span>` : ''}
+          <div class="bar-fill" style="--bar-width: ${pct}%" title="${pct}%">
+            ${showInside ? `<span class="bar-percentage">${pct}%</span>` : ''}
           </div>
         </div>
-        ${!showInside ? `<span class="bar-percentage-outside">${freq.percentage}%</span>` : ''}
+        ${!showInside ? `<span class="bar-percentage-outside">${pct}%</span>` : ''}
       </div>
     `;
   }).join('');

@@ -1,7 +1,6 @@
 @import './reset.css';
 @import './variables.css';
-@import './navigation.css';
-@import './hero.css';
+@import './pages.css';
 @import './visualizations.css';
 @import './slideshow.css';
 
@@ -11,6 +10,7 @@ body {
   color: var(--color-gray-800);
   background-color: var(--color-white);
   line-height: var(--line-height-normal);
+  overflow: hidden; /* Kein Body-Scroll — Pages handhaben ihren eigenen Scroll */
 }
 
 h1, h2, h3 {
@@ -18,28 +18,8 @@ h1, h2, h3 {
   font-weight: 700;
 }
 
-h1 {
-  font-size: var(--font-size-h1);
-}
-
-h2 {
-  font-size: var(--font-size-h2);
-}
-
-.container {
-  width: 100%;
-  max-width: var(--max-width);
-  margin: 0 auto;
-  padding: 0 var(--padding);
-}
-
-.section {
-  padding: var(--space-xl) 0;
-}
-
-.section-header {
-  margin-bottom: var(--space-lg);
-}
+h1 { font-size: var(--font-size-h1); }
+h2 { font-size: var(--font-size-h2); }
 
 /* Utilities */
 .sr-only {
@@ -63,19 +43,6 @@ h2 {
   text-align: center;
 }
 
-.loading {
-  display: flex;
-  justify-content: center;
-  align-items: center;
-  min-height: 30vh;
-  color: var(--color-gray-600);
-  font-size: 18px;
-}
-
-html {
-  scroll-padding-top: 60px;
-}
-
 a:focus-visible,
 button:focus-visible {
   outline: 2px solid var(--color-red-primary);
@@ -83,23 +50,18 @@ button:focus-visible {
 }
 
 @media print {
-  .nav,
+  .bottom-bar,
   .swiper-button-prev,
   .swiper-button-next {
     display: none;
   }
 }
 
-/* Respect reduced motion preference */
 @media (prefers-reduced-motion: reduce) {
   *, *::before, *::after {
     animation-duration: 0.01ms !important;
     animation-iteration-count: 1 !important;
     transition-duration: 0.01ms !important;
-  }
-
-  html {
-    scroll-behavior: auto;
   }
 }
 

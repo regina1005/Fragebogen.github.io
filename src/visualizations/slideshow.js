@@ -20,7 +20,7 @@ export function renderSlideshow(containerId, drawings) {
 
   const slidesHTML = drawings.map(filename => `
     <div class="swiper-slide">
-      <img src="/drawings/${filename}" alt="Teilnehmer Zeichnung" loading="lazy">
+      <img src="/drawings/${encodeURIComponent(filename)}" alt="Teilnehmer Zeichnung" loading="lazy">
     </div>
   `).join('');
 
