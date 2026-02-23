@@ -11,9 +11,14 @@
   --color-red-primary: #D32F2F;
   --color-red-dark: #B71C1C;
 
+  /* Feedback Colors */
+  --color-rose-50: #FFF1F2;
+  --color-rose-100: #FFE4E6;
+  --color-rose-600: #E11D48;
+
   /* Shadows */
-  --shadow-sm: 0 2px 8px rgba(0,0,0,0.08);
-  --shadow-md: 0 4px 16px rgba(0,0,0,0.12);
+  --shadow-sm: 0 2px 8px rgba(0, 0, 0, 0.08);
+  --shadow-md: 0 4px 16px rgba(0, 0, 0, 0.12);
 
   /* Spacing */
   --space-xs: 8px;

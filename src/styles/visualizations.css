@@ -614,7 +614,7 @@
 }
 
 .polaroid-content.liked-polaroid {
-  background-color: var(--color-rose-50);
+  background-color: var(--color-rose-100);
 }
 
 .polaroid-content img {
