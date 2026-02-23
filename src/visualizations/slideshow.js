@@ -1,11 +1,11 @@
 import Swiper from 'swiper';
-import { Navigation, Pagination, Keyboard } from 'swiper/modules';
+import { EffectCards, Pagination, Keyboard } from 'swiper/modules';
 import 'swiper/css';
-import 'swiper/css/navigation';
+import 'swiper/css/effect-cards';
 import 'swiper/css/pagination';
 
 /**
- * Render drawing slideshow
+ * Render drawing slideshow as polaroid card stack
  * @param {string} containerId - Container element ID
  * @param {Array} drawings - Array of image filenames
  */
@@ -25,27 +25,23 @@ export function renderSlideshow(containerId, drawings) {
   `).join('');
 
   container.innerHTML = `
-    <div class="swiper">
+    <div class="swiper polaroid-swiper">
       <div class="swiper-wrapper">
         ${slidesHTML}
       </div>
-      <button class="swiper-button-prev" aria-label="Vorherige Zeichnung"></button>
-      <button class="swiper-button-next" aria-label="Nächste Zeichnung"></button>
       <div class="swiper-pagination"></div>
     </div>
+    <p class="swipe-hint">← wischen →</p>
   `;
 
   new Swiper(container.querySelector('.swiper'), {
-    modules: [Navigation, Pagination, Keyboard],
-    navigation: {
-      nextEl: container.querySelector('.swiper-button-next'),
-      prevEl: container.querySelector('.swiper-button-prev'),
-    },
+    modules: [EffectCards, Pagination, Keyboard],
+    effect: 'cards',
+    grabCursor: true,
     pagination: {
       el: container.querySelector('.swiper-pagination'),
       type: 'fraction',
     },
-    loop: drawings.length > 1,
     keyboard: {
       enabled: true,
     },

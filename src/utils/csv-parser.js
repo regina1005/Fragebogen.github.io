@@ -5,7 +5,7 @@ import Papa from 'papaparse';
  * @param {string} url - Path to CSV file
  * @returns {Promise<Object>} Parsed and aggregated data
  */
-export async function loadAndParseData(url = '/data.csv') {
+export async function loadAndParseData(url = './data.csv') {
   try {
     const response = await fetch(url);
     if (!response.ok) {
@@ -45,8 +45,23 @@ function aggregateData(rawData) {
     teilC: aggregateMultipleChoice(rawData, ['frage_c1', 'frage_c2', 'frage_c3', 'frage_c4', 'frage_c5', 'frage_c6', 'frage_c7']),
     abschiebsbriefe: rawData.map(row => row.abschiedsbrief).filter(Boolean),
     zeichnungen: rawData.map(row => row.zeichnung_datei).filter(Boolean),
-    teilnehmerAnzahl: rawData.length
+    teilnehmerAnzahl: rawData.length,
+    rawRows: rawData,
   };
+}
+
+/**
+ * Filter raw rows by zugehoerigkeit and re-aggregate.
+ * @param {Array} rawRows - All raw CSV rows
+ * @param {string} zugehoerigkeit - 'alle' | 'patienten' | 'personal'
+ * @returns {Object} Aggregated data object (same shape as loadAndParseData result)
+ */
+export function filterAndAggregate(rawRows, zugehoerigkeit) {
+  if (!rawRows) return aggregateData([]);
+  const filtered = zugehoerigkeit === 'alle'
+    ? rawRows
+    : rawRows.filter(row => row.zugehoerigkeit === zugehoerigkeit);
+  return aggregateData(filtered);
 }
 
 /**
