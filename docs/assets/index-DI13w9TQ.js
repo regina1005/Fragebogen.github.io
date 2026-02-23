@@ -150,10 +150,6 @@ FIREBASE: `))}restoreState_(){this.tryAuth(),this.tryAppCheck();for(const e of t
         <div class="podium-place rank-${u}">
           <div class="podium-medal">${u===1?"🥇":u===2?"🥈":"🥉"}</div>
           <img src="./drawings/${encodeURIComponent(c.filename)}" alt="Platz ${u}" class="podium-img">
-          <div class="podium-info">
-            <span class="podium-name">${c.name}</span>
-            <span class="podium-likes">❤️ ${c.likes}</span>
-          </div>
           <div class="podium-block"></div>
         </div>
       `:'<div class="podium-place empty"></div>';i.innerHTML=`
