@@ -7,10 +7,10 @@
   <meta name="theme-color" content="#000000">
   <title>Sockendynamik- und Paarbindungsinventar — Ergebnisse</title>
   <link rel="preload" href="./Socke_Bild.jpeg" as="image">
-  <script type="module" crossorigin src="./assets/index-BLQJ1jXN.js"></script>
+  <script type="module" crossorigin src="./assets/index-CgXPfbJ4.js"></script>
   <link rel="modulepreload" crossorigin href="./assets/vendor-Czn-76cG.js">
   <link rel="modulepreload" crossorigin href="./assets/swiper-5vHbYaTT.js">
-  <link rel="stylesheet" crossorigin href="./assets/index-DAK6-B-0.css">
+  <link rel="stylesheet" crossorigin href="./assets/index--Ul8r5vq.css">
 </head>
 <body>
 
@@ -95,6 +95,10 @@
     </header>
     <div class="page-content">
       <div id="teil-c-content" class="visualizations"></div>
+      <div class="section-divider">
+        <h3 class="section-divider-title">C3 — Beschreibung der Vorteile der Faltstrategie</h3>
+      </div>
+      <div id="faltstrategien-content" class="text-list-container"></div>
       <footer class="impressum">
         © 2026 – Alle Faserrechte vorbehalten<br>
         Am Roseneck 6, 83209 Prien am Chiemsee, Station A5<br>
@@ -103,18 +107,22 @@
     </div>
   </div>
 
-  <!-- PAGE 5: Teil D — Abschiebsbriefe -->
+  <!-- PAGE 5: Teil D — Zeichnungen + Abschiedsbriefe -->
   <div class="page page-light" id="page-teil-d">
     <header class="page-header">
       <div class="section-eyebrow">
         <span class="section-number" aria-hidden="true">D</span>
         <div class="section-title-group">
-          <h2>Abschiebsbriefe</h2>
-          <p class="section-subtitle">Abschiedsbriefe an verlorene Socken</p>
+          <h2>Teil D</h2>
+          <p class="section-subtitle">Zeichnungen &amp; Abschiedsbriefe</p>
         </div>
       </div>
     </header>
     <div class="page-content">
+      <div id="slideshow-container" class="slideshow-container"></div>
+      <div class="section-divider">
+        <h3 class="section-divider-title">Abschiedsbriefe an verlorene Socken</h3>
+      </div>
       <div id="abschiebsbriefe-content" class="text-list-container"></div>
       <footer class="impressum">
         © 2026 – Alle Faserrechte vorbehalten<br>
@@ -124,24 +132,46 @@
     </div>
   </div>
 
-  <!-- PAGE 6: Teil E — Zeichnungen -->
-  <div class="page" id="page-teil-e">
+  <!-- PAGE 6: Teil E — Postinterventionelle Reflexion -->
+  <div class="page page-light" id="page-teil-e">
     <header class="page-header">
       <div class="section-eyebrow">
         <span class="section-number" aria-hidden="true">E</span>
         <div class="section-title-group">
-          <h2>Zeichnungen</h2>
-          <p class="section-subtitle">Präferierte Socken der Teilnehmer</p>
+          <h2>Teil E</h2>
+          <p class="section-subtitle">Postinterventionelle Reflexion</p>
         </div>
+      </div>
+      <div class="filter-bar" role="group" aria-label="Filter nach Zugehörigkeit">
+        <button class="filter-btn active" data-filter="alle">Alle</button>
+        <button class="filter-btn" data-filter="patienten">Patienten</button>
+        <button class="filter-btn" data-filter="personal">Personal</button>
       </div>
     </header>
     <div class="page-content">
-      <div id="slideshow-container" class="slideshow-container"></div>
+      <div id="teil-e-single-content" class="visualizations"></div>
+      <div class="section-divider">
+        <h3 class="section-divider-title">E4 — Postinterventionelle Selbstbeurteilung</h3>
+        <p class="section-divider-subtitle">Trifft nicht zu &rarr; Trifft zu</p>
+      </div>
+      <div id="teil-e-likert-content" class="visualizations"></div>
       <footer class="impressum">
         © 2026 – Alle Faserrechte vorbehalten<br>
         Am Roseneck 6, 83209 Prien am Chiemsee, Station A5<br>
         Klinisches Institut für Textile Objektbeziehungen (KITO)
       </footer>
+    </div>
+  </div>
+
+  <!-- PAGE 7: Danke -->
+  <div class="page page-danke" id="page-danke">
+    <div class="danke-content">
+      <p class="danke-kito">Klinisches Institut für Textile Objektbeziehungen (KITO)</p>
+      <h1 class="danke-title">Vielen Dank für<br>Ihre Teilnahme!</h1>
+      <p class="danke-subtitle">Sockendynamik- und Paarbindungsinventar (SPI-01, Revision 3.2)</p>
+      <button class="pdf-download-btn" id="btn-pdf-download">
+        ↓ Ergebnisse als PDF herunterladen
+      </button>
     </div>
   </div>
 
