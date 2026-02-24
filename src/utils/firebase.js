@@ -1,5 +1,5 @@
 import { initializeApp } from 'firebase/app';
-import { getDatabase, ref, runTransaction, onValue } from 'firebase/database';
+import { getDatabase, ref, runTransaction, onValue, get } from 'firebase/database';
 
 const firebaseConfig = {
     apiKey: "AIzaSyBIqN2D_dZNb2p1xsFWYi96lfMm5UGaamE",
@@ -64,7 +64,40 @@ export async function likeImage(imageId, isUnlike = false) {
  */
 export function subscribeToLikes(callback) {
     const likesRef = ref(database, 'likes');
-    return onValue(likesRef, (snapshot) => {
-        callback(snapshot.val() || {});
+    let lastPayload = '';
+    let isPolling = false;
+
+    const emitIfChanged = (data) => {
+        const likes = data || {};
+        const payload = JSON.stringify(likes);
+        if (payload === lastPayload) return;
+        lastPayload = payload;
+        callback(likes);
+    };
+
+    const unsubscribe = onValue(likesRef, (snapshot) => {
+        emitIfChanged(snapshot.val());
+    }, (error) => {
+        console.error('Realtime like subscription failed', error);
     });
+
+    // Fallback for clients where realtime events are delayed/blocked:
+    // keep podium and like counters "relativ live" for all visitors.
+    const pollInterval = setInterval(async () => {
+        if (isPolling) return;
+        isPolling = true;
+        try {
+            const snapshot = await get(likesRef);
+            emitIfChanged(snapshot.val());
+        } catch (error) {
+            console.error('Like polling failed', error);
+        } finally {
+            isPolling = false;
+        }
+    }, 3000);
+
+    return () => {
+        unsubscribe();
+        clearInterval(pollInterval);
+    };
 }
