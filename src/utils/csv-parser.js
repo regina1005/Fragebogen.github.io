@@ -10,7 +10,9 @@ export async function loadAndParseData(url = './data.csv') {
     const resolvedUrl = url === './data.csv'
       ? `${import.meta.env.BASE_URL}data.csv`
       : url;
-    const response = await fetch(resolvedUrl);
+    const separator = resolvedUrl.includes('?') ? '&' : '?';
+    const noCacheUrl = `${resolvedUrl}${separator}v=${Date.now()}`;
+    const response = await fetch(noCacheUrl, { cache: 'no-store' });
     if (!response.ok) {
       throw new Error(`Fehler beim Laden der CSV-Datei: HTTP ${response.status}`);
     }
