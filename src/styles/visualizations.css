@@ -388,6 +388,30 @@
   }
 }
 
+/* Mobile Alignment Fix for Bar Charts */
+@media (max-width: 600px) {
+  .bar-chart-item {
+    flex-direction: column;
+    align-items: flex-start;
+    gap: 4px;
+    margin-bottom: var(--space-md);
+  }
+
+  .bar-label {
+    flex: 0 0 100%;
+    width: 100%;
+    text-align: left;
+    padding-right: 0;
+    font-size: 0.9rem;
+    line-height: 1.3;
+  }
+
+  .bar-container {
+    width: 100%;
+    height: 24px;
+  }
+}
+
 /* Text Lists - Abschiebsbriefe */
 .text-list-container {
   display: grid;
