@@ -7,7 +7,10 @@ import Papa from 'papaparse';
  */
 export async function loadAndParseData(url = './data.csv') {
   try {
-    const response = await fetch(url);
+    const resolvedUrl = url === './data.csv'
+      ? `${import.meta.env.BASE_URL}data.csv`
+      : url;
+    const response = await fetch(resolvedUrl);
     if (!response.ok) {
       throw new Error(`Fehler beim Laden der CSV-Datei: HTTP ${response.status}`);
     }
