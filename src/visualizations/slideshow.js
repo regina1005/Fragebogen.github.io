@@ -73,6 +73,38 @@ export function renderSlideshow(containerId, drawings) {
     },
   });
 
+  let latestLikesData = {};
+
+  const applyVoteState = (likesData = {}) => {
+    const votedId = getLikedImage();
+    const allButtons = container.querySelectorAll('.btn-like');
+
+    allButtons.forEach(btn => {
+      const btnImageId = btn.getAttribute('data-image');
+      const safeId = btnImageId.replace(/\./g, '_');
+      const polaroid = btn.closest('.polaroid-content');
+
+      if (!votedId) {
+        btn.disabled = false;
+        btn.classList.remove('liked');
+        if (polaroid) polaroid.classList.remove('liked-polaroid');
+      } else if (votedId === btnImageId) {
+        btn.disabled = false;
+        btn.classList.add('liked');
+        if (polaroid) polaroid.classList.add('liked-polaroid');
+      } else {
+        btn.disabled = true;
+        btn.classList.remove('liked');
+        if (polaroid) polaroid.classList.remove('liked-polaroid');
+      }
+
+      const countEl = document.getElementById(`like-count-${safeId}`);
+      if (countEl) {
+        countEl.textContent = likesData[safeId] || 0;
+      }
+    });
+  };
+
   // Bind like buttons
   const likeBtns = container.querySelectorAll('.btn-like');
   likeBtns.forEach(btn => {
@@ -87,51 +119,17 @@ export function renderSlideshow(containerId, drawings) {
 
       btn.disabled = true;
       const success = await likeImage(imageId, isAlreadyLikedByMe);
-      if (!success) {
-        btn.disabled = false; // re-enable if failed
-      }
+      btn.disabled = false;
+      if (!success) return;
+
+      // Update the local UI immediately after like/unlike so no page reload is needed.
+      applyVoteState(latestLikesData);
     });
   });
 
   // Subscribe to realtime like counts
   subscribeToLikes((likesData) => {
-    const votedId = getLikedImage();
-    const allButtons = container.querySelectorAll('.btn-like');
-
-    // First, update counts for all
-    Object.keys(likesData).forEach(key => {
-      const el = document.getElementById(`like-count-${key}`);
-      if (el) el.textContent = likesData[key];
-    });
-
-    // Then update button states
-    allButtons.forEach(btn => {
-      const btnImageId = btn.getAttribute('data-image');
-      const safeId = btnImageId.replace(/\./g, '_');
-      const polaroid = btn.closest('.polaroid-content');
-
-      if (!votedId) {
-        // No vote cast -> all buttons enabled, no red color, no pink bg
-        btn.disabled = false;
-        btn.classList.remove('liked');
-        if (polaroid) polaroid.classList.remove('liked-polaroid');
-      } else if (votedId === btnImageId) {
-        // This is my vote -> enabled (to allow un-like), red color, pink bg
-        btn.disabled = false;
-        btn.classList.add('liked');
-        if (polaroid) polaroid.classList.add('liked-polaroid');
-      } else {
-        // Vote cast for another image -> disabled, no red color, no pink bg
-        btn.disabled = true;
-        btn.classList.remove('liked');
-        if (polaroid) polaroid.classList.remove('liked-polaroid');
-      }
-
-      // Update count even if key not in likesData (reset to 0 if needed)
-      const countEl = document.getElementById(`like-count-${safeId}`);
-      if (countEl) {
-        countEl.textContent = likesData[safeId] || 0;
-      }
-    });
+    latestLikesData = likesData || {};
+    applyVoteState(latestLikesData);
   });
 }
