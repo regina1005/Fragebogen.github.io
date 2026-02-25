@@ -58,15 +58,16 @@ function aggregateData(rawData) {
       .map(row => ({
         text: String(row.frage_c3 || '').replace(/^[„""]|["""]$/g, '').trim(),
         zugehoerigkeit: row.zugehoerigkeit,
-        name: row.name,
         alter: row.alter,
         faltStrategie: row.frage_c2  // 0–3, maps to Faltstrategie option
       }))
       .filter(item => item.text),
     abschiebsbriefe: rawData
-      .map(row => ({ text: row.abschiedsbrief, zugehoerigkeit: row.zugehoerigkeit, name: row.name, alter: row.alter }))
+      .map(row => ({ text: row.abschiedsbrief, zugehoerigkeit: row.zugehoerigkeit, alter: row.alter }))
       .filter(item => item.text),
-    zeichnungen: rawData.map(row => ({ datei: row.zeichnung_datei, name: row.name, alter: row.alter })).filter(item => item.datei),
+    zeichnungen: rawData
+      .map(row => ({ datei: row.zeichnung_datei, zugehoerigkeit: row.zugehoerigkeit, alter: row.alter }))
+      .filter(item => item.datei),
     teilD3: rawData
       .map(row => ({ value: row.frage_d3, zugehoerigkeit: row.zugehoerigkeit }))
       .filter(item => item.value !== null && item.value !== undefined && item.value !== ''),

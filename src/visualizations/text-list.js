@@ -44,7 +44,7 @@ export function renderFaltstrategieGroups(containerId, items) {
       <div class="faltstrategie-group-cards"></div>
     `;
     const cardsEl = groupEl.querySelector('.faltstrategie-group-cards');
-    groupItems.forEach(item => cardsEl.appendChild(createTextCard(item.text, item.name, item.alter)));
+    groupItems.forEach(item => cardsEl.appendChild(createTextCard(item.text, item.zugehoerigkeit, item.alter)));
     container.appendChild(groupEl);
   });
 
@@ -78,9 +78,9 @@ export function renderTextList(containerId, items) {
 
   items.forEach((item) => {
     const text = typeof item === 'string' ? item : item.text;
-    const name = typeof item === 'string' ? null : item.name;
+    const zugehoerigkeit = typeof item === 'string' ? null : item.zugehoerigkeit;
     const alter = typeof item === 'string' ? null : item.alter;
-    const card = createTextCard(text, name, alter);
+    const card = createTextCard(text, zugehoerigkeit, alter);
     container.appendChild(card);
   });
 
@@ -100,11 +100,11 @@ export function renderTextList(containerId, items) {
 /**
  * Create a single text card
  * @param {string} text - Text content
- * @param {string|null} name - Name
+ * @param {string|null} zugehoerigkeit - Group ('patienten'/'personal')
  * @param {string|number|null} alter - Alter
  * @returns {HTMLElement}
  */
-function createTextCard(text, name, alter) {
+function createTextCard(text, zugehoerigkeit, alter) {
   const card = document.createElement('div');
   card.className = 'text-card';
   card.setAttribute('role', 'article');
@@ -113,9 +113,9 @@ function createTextCard(text, name, alter) {
   sanitized.textContent = text;
   const safeText = sanitized.innerHTML;
 
-  const displayName = name || 'Unbekannt';
+  const roleLabel = getRoleLabel(zugehoerigkeit);
   const displayAlter = alter ? `, ${alter}` : '';
-  const authorLabel = `${displayName}${displayAlter}`;
+  const authorLabel = `${roleLabel}${displayAlter}`;
 
   card.innerHTML = `
     <div class="text-card-content">„${safeText}"</div>
@@ -123,4 +123,11 @@ function createTextCard(text, name, alter) {
   `;
 
   return card;
+}
+
+function getRoleLabel(zugehoerigkeit) {
+  const group = String(zugehoerigkeit || '').toLowerCase();
+  if (group === 'personal') return 'Therapeutisches Teammitglied';
+  if (group === 'patienten') return 'Patientin';
+  return 'Teilnehmende Person';
 }

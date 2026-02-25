@@ -21,9 +21,10 @@ export function renderSlideshow(containerId, drawings) {
 
   const slidesHTML = drawings.map(item => {
     const filename = typeof item === 'string' ? item : item.datei;
-    const name = typeof item === 'string' ? 'Unbekannt' : (item.name || 'Unbekannt');
+    const zugehoerigkeit = typeof item === 'string' ? null : item.zugehoerigkeit;
+    const roleLabel = getRoleLabel(zugehoerigkeit);
     const alter = typeof item === 'string' || !item.alter ? '' : `, ${item.alter}`;
-    const desc = `${name}${alter}`;
+    const desc = `${roleLabel}${alter}`;
     const safeId = filename.replace(/\./g, '_');
 
     return `
@@ -132,4 +133,11 @@ export function renderSlideshow(containerId, drawings) {
     latestLikesData = likesData || {};
     applyVoteState(latestLikesData);
   });
+}
+
+function getRoleLabel(zugehoerigkeit) {
+  const group = String(zugehoerigkeit || '').toLowerCase();
+  if (group === 'personal') return 'Therapeutisches Teammitglied';
+  if (group === 'patienten') return 'Patientin';
+  return 'Teilnehmende Person';
 }

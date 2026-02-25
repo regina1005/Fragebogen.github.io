@@ -26,9 +26,8 @@ export function renderPodium(containerId, drawings) {
     const rankedDrawings = drawings.map(item => {
       const filename = typeof item === 'string' ? item : item.datei;
       const safeId = filename.replace(/\./g, '_');
-      const name = typeof item === 'string' ? 'Unbekannt' : (item.name || 'Unbekannt');
       const likes = likesData[safeId] || 0;
-      return { filename, name, likes };
+      return { filename, likes };
     });
 
     // 2. Sort descending by likes
